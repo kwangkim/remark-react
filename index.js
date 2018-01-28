@@ -1,9 +1,9 @@
 'use strict';
 
-module.exports = remarkReact;
+module.exports = rehypeReact;
 
-var toHAST = require('mdast-util-to-hast');
-var sanitize = require('hast-util-sanitize');
+//var toHAST = require('mdast-util-to-hast');
+//var sanitize = require('hast-util-sanitize');
 var toH = require('hast-to-hyperscript');
 var xtend = require('xtend');
 
@@ -31,7 +31,7 @@ var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
  * @param {Function?} [options.createElement]
  *   - `h()`.
  */
-function remarkReact(options) {
+function rehypeReact(options) {
   var settings = options || {};
   var createElement = settings.createElement || globalCreateElement;
   var clean = settings.sanitize !== false;
@@ -71,26 +71,14 @@ function remarkReact(options) {
   }
 
   /**
-   * Compile MDAST to React.
+   * Compile HAST to React.
    *
-   * @param {Node} node - MDAST node.
+   * @param {Node} node - HAST node.
    * @return {ReactElement} - React element.
    */
-  function compile(node) {
-    var hast = {
-      type: 'element',
-      tagName: 'div',
-      properties: {},
-      children: toHAST(node, toHastOptions).children
-    };
-
-    if (clean) {
-      hast = sanitize(hast, scheme);
-    }
-
+  function compile(hast) {
     return toH(h, hast, settings.prefix);
   }
-
   /**
    * Create a functional React component for a cell.
    * We need this because GFM uses `align`, whereas React
@@ -98,7 +86,6 @@ function remarkReact(options) {
    */
   function createTableCellComponent(tagName) {
     return TableCell;
-
     function TableCell(props) {
       var fixedProps = xtend(props, {
         children: undefined,
