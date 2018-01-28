@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = rehypeReact;
+module.exports = remarkReact;
 
 //var toHAST = require('mdast-util-to-hast');
 //var sanitize = require('hast-util-sanitize');
