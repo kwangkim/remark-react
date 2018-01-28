@@ -31,7 +31,7 @@ var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
  * @param {Function?} [options.createElement]
  *   - `h()`.
  */
-function rehypeReact(options) {
+function remarkReact(options) {
   var settings = options || {};
   var createElement = settings.createElement || globalCreateElement;
   var clean = settings.sanitize !== false;
