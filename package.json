@@ -13,12 +13,13 @@
     "Juho Vepsalainen <bebraw@gmail.com>",
     "Jason Trill <jason@jasontrill.com>",
     "Tsuyusato Kitsune <make.just.on@gmail.com>",
-    "Jeremy Stucki <jeremy@interactivethings.com>"
+    "Jeremy Stucki <jeremy@interactivethings.com>",
+    "Kwang Kim <devkwang@gmail.com>"
   ],
   "dependencies": {
     "hast-to-hyperscript": "^3.0.0",
     "hast-util-sanitize": "^1.0.0",
-    "mdast-util-to-hast": "^2.0.0",
+    "has": "^1.0.1",
     "standard-changelog": "^0.0.1",
     "xtend": "^4.0.1"
   },
