@@ -1,20 +1,20 @@
 'use strict';
 
 module.exports = remarkReact;
-
+// Copy idea from https://github.com/rhysd/rehype-react
 //var toHAST = require('mdast-util-to-hast');
 var has = require('has');
 var sanitize = require('hast-util-sanitize');
 var toH = require('hast-to-hyperscript');
 var xtend = require('xtend');
-
+/*
 var globalCreateElement;
 
 try {
   globalCreateElement = require('react').createElement;
 } catch (err) {}
-
-var own = {}.hasOwnProperty;
+*/
+//var own = {}.hasOwnProperty;
 
 var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
 
@@ -25,7 +25,7 @@ var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
  * @param {Object?} [options]
  * @param {Object?} [options.sanitize]
  *   - Sanitation schema.
- * @param {Object?} [options.remarkReactComponents]
+ * @param {Object?} [options.components]
  *   - Components.
  * @param {string?} [options.prefix]
  *   - Key prefix.
@@ -34,14 +34,14 @@ var TABLE_ELEMENTS = ['table', 'thead', 'tbody', 'tfoot', 'tr'];
  */
 function remarkReact(options) {
   var settings = options || {};
-  var createElement = settings.createElement || globalCreateElement;
+  var createElement = settings.createElement;// || globalCreateElement;
   var clean = settings.sanitize !== false;
   var scheme = clean && (typeof settings.sanitize !== 'boolean') ? settings.sanitize : null;
   var toHastOptions = settings.toHast || {};
   var components = xtend({
     td: createTableCellComponent('td'),
     th: createTableCellComponent('th')
-  }, settings.remarkReactComponents);
+  }, settings.components);
 
   this.Compiler = compile;
 
@@ -54,7 +54,7 @@ function remarkReact(options) {
    * @return {ReactElement} - React element.
    */
   function h(name, props, children) {
-    var component = own.call(components, name) ? components[name] : name;
+    var component = has(components, name) ? components[name] : name; //used has.
 
     /*
      * Currently, a warning is triggered by react for
