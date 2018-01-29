@@ -3,7 +3,7 @@
 module.exports = remarkReact;
 
 //var toHAST = require('mdast-util-to-hast');
-//var sanitize = require('hast-util-sanitize');
+var sanitize = require('hast-util-sanitize');
 var toH = require('hast-to-hyperscript');
 var xtend = require('xtend');
 
@@ -75,8 +75,25 @@ function remarkReact(options) {
    *
    * @param {Node} node - HAST node.
    * @return {ReactElement} - React element.
+   
+   Combine https://github.com/mapbox/remark-react and https://github.com/rhysd/rehype-react
    */
   function compile(hast) {
+  if (hast.type === 'root') {
+      if (hast.children.length === 1 && hast.children[0].type === 'element') {
+        hast = hast.children[0];
+      } else {
+        hast = {
+          type: 'element',
+          tagName: 'div',
+          properties: {},
+          children: node.children
+        };
+      }
+    }
+    if (clean) {
+      hast = sanitize(hast, scheme);
+    }
     return toH(h, hast, settings.prefix);
   }
   /**
