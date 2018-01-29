@@ -87,7 +87,7 @@ function remarkReact(options) {
           type: 'element',
           tagName: 'div',
           properties: {},
-          children: node.children
+          children: hast.children
         };
       }
     }
