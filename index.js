@@ -3,6 +3,7 @@
 module.exports = remarkReact;
 
 //var toHAST = require('mdast-util-to-hast');
+var has = require('has');
 var sanitize = require('hast-util-sanitize');
 var toH = require('hast-to-hyperscript');
 var xtend = require('xtend');
